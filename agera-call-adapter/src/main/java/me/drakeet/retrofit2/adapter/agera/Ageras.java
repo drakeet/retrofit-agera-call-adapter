@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import static com.google.android.agera.Repositories.repositoryWithInitialValue;
 
 /**
- * Created by drakeet on 16/6/1.
+ * @author drakeet
  */
 public class Ageras {
 
