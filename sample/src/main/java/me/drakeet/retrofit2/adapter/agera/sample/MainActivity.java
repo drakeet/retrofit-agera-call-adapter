@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import com.google.android.agera.Repositories;
 import com.google.android.agera.Repository;
+import com.google.android.agera.Reservoir;
 import com.google.android.agera.Updatable;
 import java.util.concurrent.Executors;
 import me.drakeet.retrofit2.adapter.agera.AgeraCallAdapterFactory;
@@ -19,8 +20,8 @@ public class MainActivity extends AppCompatActivity implements Updatable {
     private TextView textView;
     private String unimportantValue = "";
 
-    interface Api {
-        @GET("1") Repository<Gank> android();
+    interface Service {
+        @GET("1") Reservoir<Gank> android();
     }
 
 
@@ -35,12 +36,13 @@ public class MainActivity extends AppCompatActivity implements Updatable {
                 .addCallAdapterFactory(AgeraCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        final Api service = retrofit.create(Api.class);
+        final Service service = retrofit.create(Service.class);
         repository = Repositories.repositoryWithInitialValue(unimportantValue)
                 .observe()
                 .onUpdatesPerLoop()
                 .goTo(Executors.newSingleThreadExecutor())
-                .getFrom(service.android())
+                .attemptGetFrom(service.android())
+                .orSkip()
                 .transform(input -> input.results.get(0))
                 .thenTransform(input -> input.desc)
                 .compile();
