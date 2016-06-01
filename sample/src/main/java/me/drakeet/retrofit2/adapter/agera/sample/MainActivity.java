@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements Updatable {
 
   private Repository<Gank> repository;
   private TextView textView;
-  private Gank unimportantValue = new Gank();
+  private static final Gank INITIAL_VALUE = new Gank();
 
   interface Service {
     @GET("1") Reservoir<Gank> android();
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements Updatable {
         .build();
     final Service service = retrofit.create(Service.class);
 
-    repository = Ageras.goToBackgroundWithInitialValue(unimportantValue)
+    repository = Ageras.goToBackgroundWithInitialValue(INITIAL_VALUE)
         .attemptGetFrom(service.android())
         .orSkip()
         .thenTransform(input -> input)
