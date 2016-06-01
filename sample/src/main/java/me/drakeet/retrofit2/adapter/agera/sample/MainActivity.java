@@ -3,6 +3,7 @@ package me.drakeet.retrofit2.adapter.agera.sample;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import com.google.android.agera.Functions;
 import com.google.android.agera.Repository;
 import com.google.android.agera.Reservoir;
 import com.google.android.agera.Updatable;
@@ -15,9 +16,9 @@ import retrofit2.http.GET;
 
 public class MainActivity extends AppCompatActivity implements Updatable {
 
-  private Repository<Gank> repository;
+  private Repository<String[]> repository;
   private TextView textView;
-  private static final Gank INITIAL_VALUE = new Gank();
+  private static final String[] INITIAL_VALUE = {};
 
   interface Service {
     @GET("1") Reservoir<Gank> android();
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity implements Updatable {
     repository = Ageras.goToBackgroundWithInitialValue(INITIAL_VALUE)
         .attemptGetFrom(service.android())
         .orSkip()
-        .thenTransform(input -> input)
+        .transform(gank -> gank.results)
+        .transform(Functions.functionFromListOf(Gank.ResultsEntity.class)
+            .thenMap(entity -> entity.desc))
+        .thenTransform(list -> list.toArray(new String[list.size()]))
         .compile();
 
     repository.addUpdatable(this);
@@ -48,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements Updatable {
 
 
   @Override public void update() {
-    textView.setText(repository.get().toString());
+    for (String s : repository.get()) {
+      textView.append("* " + s + "\n");
+    }
   }
 
 
