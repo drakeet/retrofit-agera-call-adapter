@@ -14,23 +14,23 @@ import static com.google.android.agera.Preconditions.checkNotNull;
 /**
  * @author drakeet
  */
-class CallReservoir<T> extends BaseObservable implements Reservoir<T> {
+public class CallResponseReservoir<T> extends BaseObservable implements Reservoir<Response<T>> {
 
   private final Call<T> call;
 
 
-  CallReservoir(@NonNull final Call<T> call) {
+  CallResponseReservoir(@NonNull final Call<T> call) {
     this.call = checkNotNull(call);
   }
 
 
-  @NonNull @Override public Result<T> get() {
+  @NonNull @Override public Result<Response<T>> get() {
     Looper.prepare();
-    Result<T> result;
+    Result<Response<T>> result;
     try {
       Response<T> response = call.execute();
       if (response.isSuccessful()) {
-        result = Result.success(response.body());
+        result = Result.success(response);
       } else {
         result = Result.failure(new HttpException(response));
       }
@@ -42,7 +42,7 @@ class CallReservoir<T> extends BaseObservable implements Reservoir<T> {
   }
 
 
-  @Override public void accept(@NonNull T value) {
+  @Override public void accept(@NonNull Response<T> value) {
     // pass
   }
 }
