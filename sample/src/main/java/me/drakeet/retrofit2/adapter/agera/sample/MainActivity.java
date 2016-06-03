@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Updatable {
         .addConverterFactory(GsonConverterFactory.create())
         .build();
     final Service service = retrofit.create(Service.class);
+
     repository1 = Ageras.goToBackgroundWithInitialValue(INITIAL_VALUE)
         .attemptGetFrom(service.android())
         .orSkip()
