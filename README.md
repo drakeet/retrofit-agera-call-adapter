@@ -1,5 +1,4 @@
-# retrofit-agera-call-adapter
-retrofit agera call adapter
+# retrofit agera call adapter
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/drakeet/retrofit-agera-call-adapter/blob/master/LICENSE)
 ![maven-central](https://img.shields.io/maven-central/v/me.drakeet.mailotto/mailotto.svg) 
