@@ -8,8 +8,7 @@ version name: 2.0.2, version code: 1
 
 #### Sample
 
-![image](https://cloud.githubusercontent.com/assets/5214214/15715564/8988f87a-2851-11e6-920c-b4f5abcb6b80.png)
-
+<img src="https://cloud.githubusercontent.com/assets/5214214/15715564/8988f87a-2851-11e6-920c-b4f5abcb6b80.png" width=439 height=380/>
 
 #### Usage
 
