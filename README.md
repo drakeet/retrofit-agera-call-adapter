@@ -7,7 +7,7 @@ version name: 2.0.2, version code: 1
 
 #### Sample
 
-<img src="https://cloud.githubusercontent.com/assets/5214214/15715564/8988f87a-2851-11e6-920c-b4f5abcb6b80.png" width=439 height=380/>
+<img src="http://ww2.sinaimg.cn/large/86e2ff85gw1f4hawi7r5aj214a16qtnj.jpg" width=439 height=466/>
 
 #### Usage
 
