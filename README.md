@@ -21,7 +21,7 @@ compile 'com.google.android.agera:agera:1.1.0-beta1'
 ```
 
 It supports `Reservoir<T>` and `Reservoir<Response<T>>`,  
-And with retrofit2, you could write your service interface like this:
+with retrofit2, you could write your service interface like this:
 
 ```java
 interface Service {
@@ -44,7 +44,7 @@ final Service service = retrofit.create(Service.class);
 
 #### Addition
 
-And in order to avoid writing some duplicate code every time, I write a class:
+In order to avoid writing some duplicate code every time, I write a class, it is helpful:
 
 ```java
 public class Ageras {
@@ -58,6 +58,8 @@ public class Ageras {
   }
 }
 ```
+
+Hope you will enjoy it ^ ^
 
 License
 =======
