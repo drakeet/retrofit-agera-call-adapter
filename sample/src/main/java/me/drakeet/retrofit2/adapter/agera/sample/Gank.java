@@ -26,24 +26,24 @@ public class Gank {
 
         @Override public String toString() {
             return "ResultsEntity{" +
-                    "id='" + id + '\'' +
-                    ", createdAt='" + createdAt + '\'' +
-                    ", desc='" + desc + '\'' +
-                    ", publishedAt='" + publishedAt + '\'' +
-                    ", source='" + source + '\'' +
-                    ", type='" + type + '\'' +
-                    ", url='" + url + '\'' +
-                    ", used=" + used +
-                    ", who='" + who + '\'' +
-                    '}';
+                "id='" + id + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", desc='" + desc + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", source='" + source + '\'' +
+                ", type='" + type + '\'' +
+                ", url='" + url + '\'' +
+                ", used=" + used +
+                ", who='" + who + '\'' +
+                '}';
         }
     }
 
 
     @Override public String toString() {
         return "Gank{" +
-                "error=" + error +
-                ", results=" + results +
-                '}';
+            "error=" + error +
+            ", results=" + results +
+            '}';
     }
 }

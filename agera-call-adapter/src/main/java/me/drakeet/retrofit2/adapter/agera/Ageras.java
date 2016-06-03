@@ -11,10 +11,10 @@ import static com.google.android.agera.Repositories.repositoryWithInitialValue;
  */
 public class Ageras {
 
-  public static <T> RFlow<T, T, ?> goToBackgroundWithInitialValue(@NonNull final T initialValue) {
-    return repositoryWithInitialValue(initialValue)
-        .observe()
-        .onUpdatesPerLoop()
-        .goTo(Executors.newSingleThreadExecutor());
-  }
+    public static <T> RFlow<T, T, ?> goToBackgroundWithInitialValue(@NonNull final T initialValue) {
+        return repositoryWithInitialValue(initialValue)
+            .observe()
+            .onUpdatesPerLoop()
+            .goTo(Executors.newSingleThreadExecutor());
+    }
 }
