@@ -14,6 +14,8 @@ version name: 2.0.2, version code: 1
 To add a dependency using Gradle:
 
 ```groovy
+// I released it at Friday, June 03, 2016 23:06:29 CST (GMT+0800), 
+// please wait for it to come into effect.
 compile 'me.drakeet.retrofit2:adapter-agera:2.0.2'
 
 compile 'com.squareup.retrofit2:retrofit:2.0.2'
