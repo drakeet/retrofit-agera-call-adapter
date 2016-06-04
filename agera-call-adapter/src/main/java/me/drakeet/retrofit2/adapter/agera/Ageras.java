@@ -19,6 +19,7 @@ package me.drakeet.retrofit2.adapter.agera;
 
 import android.support.annotation.NonNull;
 import com.google.android.agera.RepositoryCompilerStates.RFlow;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import static com.google.android.agera.Repositories.repositoryWithInitialValue;
@@ -28,10 +29,20 @@ import static com.google.android.agera.Repositories.repositoryWithInitialValue;
  */
 public class Ageras {
 
+    private static class LazyLoad {
+        static final Executor executor = Executors.newSingleThreadExecutor();
+    }
+
+
+    private static Executor getSingleThreadExecutor() {
+        return LazyLoad.executor;
+    }
+
+
     public static <T> RFlow<T, T, ?> goToBackgroundWithInitialValue(@NonNull final T initialValue) {
         return repositoryWithInitialValue(initialValue)
             .observe()
             .onUpdatesPerLoop()
-            .goTo(Executors.newSingleThreadExecutor());
+            .goTo(getSingleThreadExecutor());
     }
 }
