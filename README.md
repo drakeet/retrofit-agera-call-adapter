@@ -49,13 +49,22 @@ In order to avoid writing some duplicate code every time, I write a class, it is
 ```java
 public class Ageras {
 
-  public static <T> RepositoryCompilerStates.RFlow<T, T, ?> goToBackgroundWithInitialValue(
-      @NonNull final T initialValue) {
-    return repositoryWithInitialValue(initialValue)
-        .observe()
-        .onUpdatesPerLoop()
-        .goTo(Executors.newSingleThreadExecutor());
-  }
+    private static class LazyLoad {
+        static final Executor executor = Executors.newSingleThreadExecutor();
+    }
+
+
+    private static Executor getSingleThreadExecutor() {
+        return LazyLoad.executor;
+    }
+
+
+    public static <T> RFlow<T, T, ?> goToBackgroundWithInitialValue(@NonNull final T initialValue) {
+        return repositoryWithInitialValue(initialValue)
+            .observe()
+            .onUpdatesPerLoop()
+            .goTo(getSingleThreadExecutor());
+    }
 }
 ```
 
