@@ -70,7 +70,8 @@ public class Ageras {
 
 #### TODO
 
-- Support the `CallReservoir` to `addUpdatable` directly
+- Add a new `interface (Naming)<T> extends Repository<Result<T>>`
+- Support `Repository` as result holder, and support `addUpdatable` to get the update directly
 
 Hope you will enjoy it ^ ^
 
