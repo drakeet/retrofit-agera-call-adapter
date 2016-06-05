@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements Updatable {
             .build();
         final Service service = retrofit.create(Service.class);
 
-        repository1 = Ageras.goToBackgroundWithInitialValue(INITIAL_VALUE)
+        repository1 = Ageras.goToNetworkExecutorWithInitialValue(INITIAL_VALUE)
             .attemptGetFrom(service.android())
             .orSkip()
             .thenTransform(gankToTitleArray)
             .compile();
 
-        repository2 = Ageras.goToBackgroundWithInitialValue(INITIAL_VALUE)
+        repository2 = Ageras.goToNetworkExecutorWithInitialValue(INITIAL_VALUE)
             .attemptGetFrom(service.android(2))
             .orSkip()
             .attemptTransform(response -> {

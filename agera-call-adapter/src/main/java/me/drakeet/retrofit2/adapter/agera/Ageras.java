@@ -30,19 +30,19 @@ import static com.google.android.agera.Repositories.repositoryWithInitialValue;
 public class Ageras {
 
     private static class LazyLoad {
-        static final Executor executor = Executors.newSingleThreadExecutor();
+        static final Executor networkExecutor = Executors.newSingleThreadExecutor();
     }
 
 
-    private static Executor getSingleThreadExecutor() {
-        return LazyLoad.executor;
+    public static Executor getNetworkSingleThreadExecutor() {
+        return LazyLoad.networkExecutor;
     }
 
 
-    public static <T> RFlow<T, T, ?> goToBackgroundWithInitialValue(@NonNull final T initialValue) {
+    public static <T> RFlow<T, T, ?> goToNetworkExecutorWithInitialValue(@NonNull final T initialValue) {
         return repositoryWithInitialValue(initialValue)
             .observe()
             .onUpdatesPerLoop()
-            .goTo(getSingleThreadExecutor());
+            .goTo(getNetworkSingleThreadExecutor());
     }
 }
