@@ -17,7 +17,8 @@
 
 package me.drakeet.retrofit2.adapter.agera;
 
-import com.google.android.agera.Reservoir;
+import com.google.android.agera.Result;
+import com.google.android.agera.Supplier;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -42,31 +43,36 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
 
     @Override
     public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-        if (getRawType(returnType) != Reservoir.class) {
+        if (getRawType(returnType) != Supplier.class) {
             return null;
         }
         if (!(returnType instanceof ParameterizedType)) {
-            throw new IllegalStateException("Reservoir return type must be parameterized"
-                + " as Reservoir<Foo> or Reservoir<? extends Foo>");
+            throw new IllegalStateException("Supplier return type must be parameterized"
+                + " as Supplier<Result<Foo>> or Supplier<Result<? extends Foo>>");
         }
 
         Type innerType = getParameterUpperBound(0, (ParameterizedType) returnType);
-        if (getRawType(innerType) != Response.class) {
+        if (getRawType(innerType) != Result.class) {
+            throw new IllegalStateException("Supplier return type must be parameterized"
+                + " as Supplier<Result<Foo>> or Supplier<Result<? extends Foo>>");
+        }
+        Type innerTypeOfInnerType = getParameterUpperBound(0, (ParameterizedType) innerType);
+        if (getRawType(innerTypeOfInnerType) != Response.class) {
             // Generic type is not Response<T>. Use it for body-only adapter.
-            return new BodyCallAdapter(innerType);
+            return new BodyCallAdapter(innerTypeOfInnerType);
         }
 
         // Generic type is Response<T>. Extract T and create the Response version of the adapter.
-        if (!(innerType instanceof ParameterizedType)) {
+        if (!(innerTypeOfInnerType instanceof ParameterizedType)) {
             throw new IllegalStateException("Response must be parameterized"
                 + " as Response<Foo> or Response<? extends Foo>");
         }
-        Type responseType = getParameterUpperBound(0, (ParameterizedType) innerType);
+        Type responseType = getParameterUpperBound(0, (ParameterizedType) innerTypeOfInnerType);
         return new ResponseCallAdapter(responseType);
     }
 
 
-    private static final class ResponseCallAdapter implements CallAdapter<Reservoir<?>> {
+    private static final class ResponseCallAdapter implements CallAdapter<Supplier<?>> {
 
         private final Type responseType;
 
@@ -81,13 +87,13 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
         }
 
 
-        @Override public <T> Reservoir<Response<T>> adapt(Call<T> call) {
-            return new CallResponseReservoir(call);
+        @Override public <T> Supplier<Result<Response<T>>> adapt(Call<T> call) {
+            return new CallResponseSupplier(call);
         }
     }
 
 
-    private static class BodyCallAdapter implements CallAdapter<Reservoir<?>> {
+    private static class BodyCallAdapter implements CallAdapter<Supplier<?>> {
 
         private final Type responseType;
 
@@ -102,8 +108,9 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
         }
 
 
-        @Override public <T> Reservoir<T> adapt(final Call<T> call) {
-            return new CallReservoir<>(call);
+        @Override
+        public <T> Supplier<Result<T>> adapt(Call<T> call) {
+            return new CallSupplier(call);
         }
     }
 }
