@@ -17,12 +17,12 @@
 
 package me.drakeet.retrofit2.adapter.agera;
 
-import com.google.android.agera.Reservoir;
+import com.google.android.agera.Result;
+import com.google.android.agera.Supplier;
 import com.google.common.reflect.TypeToken;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
-import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.CallAdapter;
@@ -30,6 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static junit.framework.Assert.fail;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
@@ -62,43 +63,55 @@ public class AgeraCallAdapterFactoryTest {
 
 
     @Test public void responseTypes() {
-        Type oBodyClass = new TypeToken<Reservoir<String>>() {}.getType();
+        Type oBodyClass = new TypeToken<Supplier<Result<String>>>() {}.getType();
         assertThat(factory.get(oBodyClass, NO_ANNOTATIONS, retrofit).responseType(),
-            IsEqual.equalTo(new TypeToken<String>() {}.getType()));
+            equalTo(new TypeToken<String>() {}.getType()));
 
-        Type oBodyWildcard = new TypeToken<Reservoir<? extends String>>() {}.getType();
+        Type oBodyWildcard = new TypeToken<Supplier<Result<? extends String>>>() {}.getType();
         assertThat(factory.get(oBodyWildcard, NO_ANNOTATIONS, retrofit).responseType(),
-            IsEqual.equalTo(new TypeToken<String>() {}.getType()));
+            equalTo(new TypeToken<String>() {}.getType()));
 
-        Type oBodyGeneric = new TypeToken<Reservoir<List<String>>>() {}.getType();
+        Type oBodyGeneric = new TypeToken<Supplier<Result<List<String>>>>() {}.getType();
         assertThat(factory.get(oBodyGeneric, NO_ANNOTATIONS, retrofit).responseType(),
-            IsEqual.equalTo(new TypeToken<List<String>>() {}.getType()));
+            equalTo(new TypeToken<List<String>>() {}.getType()));
 
-        Type oResponseClass = new TypeToken<Reservoir<Response<String>>>() {}.getType();
+        Type oResponseClass = new TypeToken<Supplier<Result<Response<String>>>>() {}.getType();
         assertThat(factory.get(oResponseClass, NO_ANNOTATIONS, retrofit).responseType(),
-            IsEqual.equalTo(new TypeToken<String>() {}.getType()));
+            equalTo(new TypeToken<String>() {}.getType()));
 
         Type oResponseWildcard
-            = new TypeToken<Reservoir<Response<? extends String>>>() {}.getType();
+            = new TypeToken<Supplier<Result<Response<? extends String>>>>() {}.getType();
         assertThat(factory.get(oResponseWildcard, NO_ANNOTATIONS, retrofit).responseType(),
-            IsEqual.equalTo(new TypeToken<String>() {}.getType()));
+            equalTo(new TypeToken<String>() {}.getType()));
     }
 
 
     @Test public void rawBodyTypeThrows() {
-        Type reservoirType = new TypeToken<Reservoir>() {}.getType();
+        Type reservoirType = new TypeToken<Supplier>() {}.getType();
         try {
             factory.get(reservoirType, NO_ANNOTATIONS, retrofit);
             fail();
         } catch (IllegalStateException e) {
             assertThat(e, hasMessage(containsString(
-                "Reservoir return type must be parameterized as Reservoir<Foo> or Reservoir<? extends Foo>")));
+                "Supplier return type must be parameterized as Supplier<Result<Foo>> or Supplier<Result<? extends Foo>>")));
+        }
+    }
+
+
+    @Test public void noUseResultAsFirstInnerTypeThrows() {
+        Type reservoirType = new TypeToken<Supplier<String>>() {}.getType();
+        try {
+            factory.get(reservoirType, NO_ANNOTATIONS, retrofit);
+            fail();
+        } catch (IllegalStateException e) {
+            assertThat(e, hasMessage(containsString(
+                "Supplier return type must be parameterized as Supplier<Result<Foo>> or Supplier<Result<? extends Foo>>")));
         }
     }
 
 
     @Test public void rawResponseTypeThrows() {
-        Type reservoirType = new TypeToken<Reservoir<Response>>() {}.getType();
+        Type reservoirType = new TypeToken<Supplier<Result<Response>>>() {}.getType();
         try {
             factory.get(reservoirType, NO_ANNOTATIONS, retrofit);
             fail();

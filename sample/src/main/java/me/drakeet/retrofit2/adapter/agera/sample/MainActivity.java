@@ -23,8 +23,8 @@ import android.widget.TextView;
 import com.google.android.agera.Function;
 import com.google.android.agera.Functions;
 import com.google.android.agera.Repository;
-import com.google.android.agera.Reservoir;
 import com.google.android.agera.Result;
+import com.google.android.agera.Supplier;
 import com.google.android.agera.Updatable;
 import me.drakeet.retrofit2.adapter.agera.AgeraCallAdapterFactory;
 import me.drakeet.retrofit2.adapter.agera.Ageras;
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements Updatable {
 
 
     interface Service {
-        @GET("1") Reservoir<Gank> android();
-        @GET("{page}") Reservoir<Response<Gank>> android(@Path("page") int page);
+        @GET("1") Supplier<Result<Gank>> android();
+        @GET("{page}") Supplier<Result<Response<Gank>>> android(@Path("page") int page);
     }
 
 

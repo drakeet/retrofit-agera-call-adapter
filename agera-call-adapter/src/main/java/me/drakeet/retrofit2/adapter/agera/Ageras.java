@@ -34,12 +34,15 @@ public class Ageras {
     }
 
 
+    @NonNull
     public static Executor getNetworkSingleThreadExecutor() {
         return LazyLoad.networkExecutor;
     }
 
 
-    public static <T> RFlow<T, T, ?> goToNetworkExecutorWithInitialValue(@NonNull final T initialValue) {
+    @NonNull
+    public static <T> RFlow<T, T, ?> goToNetworkExecutorWithInitialValue(
+        @NonNull final T initialValue) {
         return repositoryWithInitialValue(initialValue)
             .observe()
             .onUpdatesPerLoop()
