@@ -3,30 +3,39 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/drakeet/retrofit-agera-call-adapter/blob/master/LICENSE)
 ![maven-central](https://img.shields.io/maven-central/v/me.drakeet.retrofit2/adapter-agera.svg) 
 
-version name: 2.0.2, version code: 1
+version name: 2.0.3, version code: 2
 
 #### Sample
 
-<img src="http://ww2.sinaimg.cn/large/86e2ff85gw1f4hawi7r5aj214a16qtnj.jpg" width=439 height=466/>
+```java
+repository = Repositories.repositoryWithInitialValue(INITIAL_VALUE)
+    .observe()
+    .onUpdatesPerLoop()
+    .goTo(networkExecutor)
+    .attemptGetFrom(service.android())
+    .orSkip()
+    .thenTransform(gankToTitleArray)
+    .compile();
+```
 
 #### Usage
 
 To add a dependency using Gradle:
 
 ```groovy
-compile 'me.drakeet.retrofit2:adapter-agera:2.0.2'
+compile 'me.drakeet.retrofit2:adapter-agera:2.0.3'
 
 compile 'com.squareup.retrofit2:retrofit:2.0.2'
-compile 'com.google.android.agera:agera:1.1.0-beta1'
+compile 'com.google.android.agera:agera:1.1.0-beta2'
 ```
 
-It supports `Reservoir<T>` and `Reservoir<Response<T>>`,  
+It supports `Supplier<Result<T>>` and `Supplier<Result<Response<T>>>`,  
 with retrofit2, you could write your service interface like this:
 
 ```java
 interface Service {
-    @GET("1") Reservoir<Gank> android();
-    @GET("{page}") Reservoir<Response<Gank>> android(@Path("page") int page);
+    @GET("1") Supplier<Result<Gank>> android();
+    @GET("{page}") Supplier<Result<Response<Gank>>> android(@Path("page") int page);
 }
 ```
 
@@ -71,7 +80,6 @@ public class Ageras {
 #### TODO
 
 - Add a new `interface (Naming)<T> extends Repository<Result<T>>`
-- Support `Repository` as result holder, and support `addUpdatable` to get the update directly
 
 Hope you will enjoy it ^ ^
 
