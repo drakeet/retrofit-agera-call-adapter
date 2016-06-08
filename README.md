@@ -53,7 +53,7 @@ final Service service = retrofit.create(Service.class);
 
 #### Addition
 
-In order to avoid writing some duplicate code every time, I write a class, it is helpful:
+I provided a `Ageras` class, maybe it can bring you some convenience: 
 
 ```java
 public class Ageras {
@@ -63,11 +63,13 @@ public class Ageras {
     }
 
 
+    @NonNull
     public static Executor getNetworkSingleThreadExecutor() {
         return LazyLoad.networkExecutor;
     }
 
 
+    @NonNull
     public static <T> RFlow<T, T, ?> goToNetworkExecutorWithInitialValue(@NonNull final T initialValue) {
         return repositoryWithInitialValue(initialValue)
             .observe()
@@ -79,9 +81,9 @@ public class Ageras {
 
 #### TODO
 
-- Add a new `interface (Naming)<T> extends Repository<Result<T>>`
+- Add a new `interface (Naming)<T> extends Supplier<Result<T>>`
 
-Hope you will enjoy it ^ ^
+Hope you will enjoy it : )
 
 License
 =======
