@@ -1,7 +1,7 @@
 # retrofit agera call adapter
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/drakeet/retrofit-agera-call-adapter/blob/master/LICENSE)
-![maven-central](https://img.shields.io/maven-central/v/me.drakeet.retrofit2/adapter-agera.svg) 
+[![maven-central](https://img.shields.io/maven-central/v/me.drakeet.retrofit2/adapter-agera.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22adapter-agera%22) 
 
 version name: 2.0.4, version code: 4
 
