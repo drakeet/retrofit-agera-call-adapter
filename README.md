@@ -53,6 +53,7 @@ final Service service = retrofit.create(Service.class);
 
 #### Addition
 
+[Agera Event Bus](https://github.com/drakeet/agera-event-bus)
 
 #### TODO
 
