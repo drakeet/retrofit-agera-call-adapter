@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/drakeet/retrofit-agera-call-adapter/blob/master/LICENSE)
 ![maven-central](https://img.shields.io/maven-central/v/me.drakeet.retrofit2/adapter-agera.svg) 
 
-version name: 2.0.3, version code: 2
+version name: 2.0.4, version code: 4
 
 #### Sample
 
@@ -23,7 +23,7 @@ repository = Repositories.repositoryWithInitialValue(INITIAL_VALUE)
 To add a dependency using Gradle:
 
 ```groovy
-compile 'me.drakeet.retrofit2:adapter-agera:2.0.3'
+compile 'me.drakeet.retrofit2:adapter-agera:2.0.4'
 
 compile 'com.squareup.retrofit2:retrofit:2.0.2'
 compile 'com.google.android.agera:agera:1.1.0-beta2'
@@ -53,31 +53,6 @@ final Service service = retrofit.create(Service.class);
 
 #### Addition
 
-I provided a `Ageras` class, maybe it can bring you some convenience: 
-
-```java
-public class Ageras {
-
-    private static class LazyLoad {
-        static final Executor networkExecutor = Executors.newSingleThreadExecutor();
-    }
-
-
-    @NonNull
-    public static Executor getNetworkSingleThreadExecutor() {
-        return LazyLoad.networkExecutor;
-    }
-
-
-    @NonNull
-    public static <T> RFlow<T, T, ?> goToNetworkExecutorWithInitialValue(@NonNull final T initialValue) {
-        return repositoryWithInitialValue(initialValue)
-            .observe()
-            .onUpdatesPerLoop()
-            .goTo(getNetworkSingleThreadExecutor());
-    }
-}
-```
 
 #### TODO
 
