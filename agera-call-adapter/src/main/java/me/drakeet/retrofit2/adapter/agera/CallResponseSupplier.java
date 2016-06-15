@@ -31,18 +31,18 @@ import static com.google.android.agera.Preconditions.checkNotNull;
  */
 public class CallResponseSupplier<T> implements Supplier<Result<Response<T>>> {
 
-    private final Call<T> call;
+    private final Call<T> originalCall;
 
 
     CallResponseSupplier(@NonNull final Call<T> call) {
-        this.call = checkNotNull(call);
+        this.originalCall = checkNotNull(call);
     }
 
 
     @NonNull @Override public Result<Response<T>> get() {
         Result<Response<T>> result;
         try {
-            Response<T> response = call.execute();
+            Response<T> response = originalCall.clone().execute();
             if (response.isSuccessful()) {
                 result = Result.success(response);
             } else {
