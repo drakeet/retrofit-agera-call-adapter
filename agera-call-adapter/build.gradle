@@ -25,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 4
-        versionName "2.0.4"
+        versionCode 5
+        versionName "2.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -41,7 +41,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided 'com.squareup.retrofit2:retrofit:2.0.2'
+    provided 'com.squareup.retrofit2:retrofit:2.1.0'
     provided 'com.google.android.agera:agera:1.1.0-beta2'
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.guava:guava:19.0'
