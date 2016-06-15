@@ -136,4 +136,9 @@ public class SupplierTest {
             assertThat(e.getCause(), instanceOf(IOException.class));
         }
     }
+
+
+    @Test public void callRepeatedly() {
+        // TODO: 16/6/15 https://github.com/drakeet/retrofit-agera-call-adapter/issues/4
+    }
 }
