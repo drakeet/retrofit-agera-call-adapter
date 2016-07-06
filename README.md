@@ -26,7 +26,7 @@ To add a dependency using Gradle:
 compile 'me.drakeet.retrofit2:adapter-agera:2.1.0'
 
 compile 'com.squareup.retrofit2:retrofit:2.1.0'
-compile 'com.google.android.agera:agera:1.1.0-beta2'
+compile 'com.google.android.agera:agera:1.1.0'
 ```
 
 It supports `Supplier<Result<T>>` and `Supplier<Result<Response<T>>>`,  
