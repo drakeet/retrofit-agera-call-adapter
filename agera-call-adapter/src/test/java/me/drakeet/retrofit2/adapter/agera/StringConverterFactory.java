@@ -44,5 +44,4 @@ final class StringConverterFactory extends Converter.Factory {
             }
         };
     }
-
 }

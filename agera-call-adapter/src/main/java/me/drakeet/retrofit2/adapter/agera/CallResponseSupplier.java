@@ -29,7 +29,7 @@ import static com.google.android.agera.Preconditions.checkNotNull;
 /**
  * @author drakeet
  */
-public class CallResponseSupplier<T> implements Supplier<Result<Response<T>>> {
+class CallResponseSupplier<T> implements Supplier<Result<Response<T>>> {
 
     private final Call<T> originalCall;
 
@@ -44,7 +44,7 @@ public class CallResponseSupplier<T> implements Supplier<Result<Response<T>>> {
         try {
             Response<T> response = originalCall.clone().execute();
             if (response.isSuccessful()) {
-                result = Result.success(response);
+                result = Result.absentIfNull(response);
             } else {
                 result = Result.failure(new HttpException(response));
             }
