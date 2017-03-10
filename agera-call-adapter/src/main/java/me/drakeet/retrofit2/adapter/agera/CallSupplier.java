@@ -44,7 +44,7 @@ class CallSupplier<T> implements Supplier<Result<T>> {
         try {
             Response<T> response = originalCall.clone().execute();
             if (response.isSuccessful()) {
-                result = Result.success(response.body());
+                result = Result.absentIfNull(response.body());
             } else {
                 result = Result.failure(new HttpException(response));
             }

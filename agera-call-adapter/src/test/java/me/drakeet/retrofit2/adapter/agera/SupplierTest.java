@@ -28,6 +28,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 
 import static okhttp3.mockwebserver.SocketPolicy.DISCONNECT_AFTER_REQUEST;
@@ -35,6 +36,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -48,10 +50,15 @@ public class SupplierTest {
     @Rule public final MockWebServer server = new MockWebServer();
     private Service service;
 
+    private static final String STATUS_NO_CONTENT = "HTTP/1.1 204 No Content";
+    private static final String STATUS_OK = "HTTP/1.1 200 OK";
+
 
     interface Service {
         @GET("/") Supplier<Result<String>> body();
         @GET("/") Supplier<Result<Response<String>>> response();
+        @DELETE("/xxx") Supplier<Result<Void>> deleteXXX();
+        @DELETE("/xxx") Supplier<Result<Response<Void>>> responseOfDeleteXXX();
     }
 
 
@@ -140,5 +147,31 @@ public class SupplierTest {
 
     @Test public void callRepeatedly() {
         // TODO: 16/6/15 https://github.com/drakeet/retrofit-agera-call-adapter/issues/4
+    }
+
+
+    @Test public void shouldReturnAbsentIfNullBody() throws Exception {
+        MockResponse mockResponse = new MockResponse().setStatus(STATUS_NO_CONTENT);
+        assertNull(mockResponse.getBody());
+        server.enqueue(mockResponse);
+
+        Supplier<Result<Void>> supplier = service.deleteXXX();
+        Result<Void> result = supplier.get();
+        assertTrue(result.isAbsent());
+    }
+
+
+    @Test public void shouldReturnSuccessWithNullBodyResponse() throws Exception {
+        MockResponse mockResponse = new MockResponse().setStatus(STATUS_NO_CONTENT);
+        assertNull(mockResponse.getBody());
+        server.enqueue(mockResponse);
+
+        Supplier<Result<Response<Void>>> supplier = service.responseOfDeleteXXX();
+        Result<Response<Void>> responseResult = supplier.get();
+        assertTrue(responseResult.succeeded());
+
+        Response<Void> response = responseResult.get();
+        assertEquals(response.code(), 204);
+        assertNull(response.body());
     }
 }

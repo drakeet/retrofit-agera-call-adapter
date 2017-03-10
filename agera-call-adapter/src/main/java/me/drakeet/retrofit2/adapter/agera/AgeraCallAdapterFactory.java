@@ -42,7 +42,7 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
 
 
     @Override
-    public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
         if (getRawType(returnType) != Supplier.class) {
             return null;
         }
@@ -72,7 +72,8 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
     }
 
 
-    private static final class ResponseCallAdapter implements CallAdapter<Supplier<?>> {
+    private static final class ResponseCallAdapter<R>
+        implements CallAdapter<R, Supplier<Result<Response<R>>>> {
 
         private final Type responseType;
 
@@ -87,13 +88,13 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
         }
 
 
-        @Override public <T> Supplier<Result<Response<T>>> adapt(Call<T> call) {
-            return new CallResponseSupplier(call);
+        @Override public Supplier<Result<Response<R>>> adapt(Call<R> call) {
+            return new CallResponseSupplier<R>(call);
         }
     }
 
 
-    private static class BodyCallAdapter implements CallAdapter<Supplier<?>> {
+    private static class BodyCallAdapter<R> implements CallAdapter<R, Supplier<Result<R>>> {
 
         private final Type responseType;
 
@@ -109,8 +110,8 @@ public final class AgeraCallAdapterFactory extends CallAdapter.Factory {
 
 
         @Override
-        public <T> Supplier<Result<T>> adapt(Call<T> call) {
-            return new CallSupplier(call);
+        public Supplier<Result<R>> adapt(Call<R> call) {
+            return new CallSupplier<R>(call);
         }
     }
 }

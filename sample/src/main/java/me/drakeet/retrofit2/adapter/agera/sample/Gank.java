@@ -29,7 +29,9 @@ public class Gank {
 
     @SerializedName("results") public List<ResultsEntity> results;
 
+
     public static class ResultsEntity {
+
         @SerializedName("_id") public String id;
         @SerializedName("createdAt") public String createdAt;
         @SerializedName("desc") public String desc;

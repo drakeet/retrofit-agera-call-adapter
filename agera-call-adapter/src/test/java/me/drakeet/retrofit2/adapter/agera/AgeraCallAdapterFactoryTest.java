@@ -57,7 +57,7 @@ public class AgeraCallAdapterFactoryTest {
 
 
     @Test public void nonAgeraTypeReturnsNull() {
-        CallAdapter<?> adapter = factory.get(String.class, NO_ANNOTATIONS, retrofit);
+        CallAdapter<?, ?> adapter = factory.get(String.class, NO_ANNOTATIONS, retrofit);
         assertThat(adapter, nullValue());
     }
 

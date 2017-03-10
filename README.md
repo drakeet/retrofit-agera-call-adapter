@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/drakeet/retrofit-agera-call-adapter/blob/master/LICENSE)
 [![maven-central](https://img.shields.io/maven-central/v/me.drakeet.retrofit2/adapter-agera.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22adapter-agera%22) 
 
-version name: 2.1.0, version code: 5
+version name: 2.2.0-beta, version code: 6
 
 #### Sample
 
@@ -23,10 +23,10 @@ repository = Repositories.repositoryWithInitialValue(INITIAL_VALUE)
 To add a dependency using Gradle:
 
 ```groovy
-compile 'me.drakeet.retrofit2:adapter-agera:2.1.0'
+compile 'me.drakeet.retrofit2:adapter-agera:2.2.0-beta'
 
-compile 'com.squareup.retrofit2:retrofit:2.1.0'
-compile 'com.google.android.agera:agera:1.1.0'
+compile 'com.squareup.retrofit2:retrofit:2.2.0'
+compile 'com.google.android.agera:agera:1.3.0'
 ```
 
 It supports `Supplier<Result<T>>` and `Supplier<Result<Response<T>>>`,  
@@ -36,6 +36,7 @@ with retrofit2, you could write your service interface like this:
 interface Service {
     @GET("1") Supplier<Result<Gank>> android();
     @GET("{page}") Supplier<Result<Response<Gank>>> android(@Path("page") int page);
+    @DELETE("/xxx") Supplier<Result<Void>> deleteXXX();
 }
 ```
 
